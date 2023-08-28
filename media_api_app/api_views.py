@@ -53,5 +53,34 @@ class AudioAPI(generics.ListAPIView):
 
    def get_queryset(self):
       return Audio.objects.all()
-    
+
+
+# complete Audio detials or get single/detail Audio
+class AudioDetials(APIView):
+
+   def get(self, request, audio_pk,  format=None):
+      error_response = {
+         'non_found_error': f'No Audio found with this {audio_pk}'
+      }
+      try:
+         audio = Audio.objects.get(pk = audio_pk)
+
+      except Audio.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except Audio.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+
+         serializer = AudioSerializer(audio)
+         response = {
+            'msg': f'Detial of Audio of pk: {audio_pk}',
+            'data': serializer.data
+         }
+         return Response(response, status=status.HTTP_200_OK)
+      
   
