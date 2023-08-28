@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class UserProfile(models.Model):
+   user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
+   profile_img = models.ImageField(upload_to='User/images')
+   about_user  = models.TextField(blank=True, null=True)
+   profession  = models.CharField(max_length=100)
+
 class Category(models.Model):
    name = models.CharField(max_length=200)
 
@@ -8,13 +15,14 @@ class Category(models.Model):
       return self.name
 
 class Video(models.Model):
+   thumnail    = models.ImageField(upload_to='Videos/thumbnals', blank=True, null=True)
    videofile   = models.FileField(upload_to='Videos/')
    title       = models.CharField(max_length=200)
    description = models.TextField(blank=True, null=True)
    category    = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='videos')
    created     = models.DateField(auto_now_add=True) 
    updated     = models.DateField(auto_now=True)
-   creator     = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_videos')
+   creator     = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='user_videos')
 
    def __str__(self):
-      return f'{self.title} | {self.creator.username}'
+      return f'{self.title} '
