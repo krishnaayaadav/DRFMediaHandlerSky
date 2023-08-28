@@ -44,7 +44,6 @@ class VideoDetials(APIView):
          }
          return Response(response, status=status.HTTP_200_OK)
       
-
 #  video update 
 class UpdateVideoAPI(APIView):
 
@@ -78,7 +77,34 @@ class UpdateVideoAPI(APIView):
             return Response(response, status=status.HTTP_200_OK)
          else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+#  delete video 
+class DeleteVideoAPI(APIView):
+
+   def delete(self, request, video_pk,  format=None):
+      error_response = {
+         'non_found_error': f'No Video found with this {video_pk}'
+      }
+      try:
+         video = Video.objects.get(pk = video_pk)
+
+      except Video.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
       
+      except Video.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+         video.delete()
+         response = {
+            'msg': f'Video delete successfully of pk: {video_pk}',
+         }
+         return Response(response, status=status.HTTP_204_NO_CONTENT)
+            
 
 # get all audios api
 class AudioAPI(generics.ListAPIView):
@@ -153,4 +179,31 @@ class UpdateAudioAPI(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
          
       
-  
+
+#  Audio detials or get single/detail Audio
+class DeleteAudioAPI(APIView):
+
+   def delete(self, request, audio_pk,  format=None):
+      error_response = {
+         'non_found_error': f'No Audio found with this pk:  {audio_pk}'
+      }
+      try:
+         audio = Audio.objects.get(pk = audio_pk)
+
+      except Audio.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except Audio.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+
+         audio.delete()
+         response = {
+            'msg': f'Audio deleted successfully of pk: {audio_pk}',
+         }
+         return Response(response, status=status.HTTP_204_NO_CONTENT)
+      
