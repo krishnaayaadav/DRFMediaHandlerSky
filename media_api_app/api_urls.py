@@ -1,8 +1,9 @@
-from .api_views import VideoAPI, AudioAPI
 from django.urls import path
-
+from media_api_app import api_views 
 urlpatterns = [
-   path('videos/', VideoAPI.as_view(), name='all_videos'),
-   path('audios/', AudioAPI.as_view(), name='all_videos'),
+   path('videos/', api_views.VideoAPI.as_view(), name='all_videos'),
+   path('videos/<int:video_pk>/', api_views.VideoDetials.as_view(), name='all_videos'),
+
+   path('audios/', api_views.AudioAPI.as_view(), name='all_videos'),
 
 ]
