@@ -16,7 +16,7 @@ class VideoAPI(generics.ListAPIView):
    def get_queryset(self):
       return Video.objects.all()
 
-# complete video detials or get single/detail video
+#  video detials or get single/detail video
 class VideoDetials(APIView):
 
    def get(self, request, video_pk,  format=None):
@@ -45,6 +45,41 @@ class VideoDetials(APIView):
          return Response(response, status=status.HTTP_200_OK)
       
 
+#  video update 
+class UpdateVideoAPI(APIView):
+
+   def patch(self, request, video_pk,  format=None):
+
+      error_response = {
+         'non_found_error': f'No Video found with this {video_pk}'
+      }
+      try:
+         video = Video.objects.get(pk = video_pk)
+
+      except Video.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except Video.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+
+         serializer = VideoSerializer(instance=video, data=request.data, partial=True)
+         if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+            response = {
+               'msg': f'Congrats! Video of pk: {video_pk} successfully updated',
+               'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+         else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+      
+
 # get all audios api
 class AudioAPI(generics.ListAPIView):
     
@@ -55,12 +90,12 @@ class AudioAPI(generics.ListAPIView):
       return Audio.objects.all()
 
 
-# complete Audio detials or get single/detail Audio
+#  Audio detials or get single/detail Audio
 class AudioDetials(APIView):
 
    def get(self, request, audio_pk,  format=None):
       error_response = {
-         'non_found_error': f'No Audio found with this {audio_pk}'
+         'non_found_error': f'No Audio found with this pk:  {audio_pk}'
       }
       try:
          audio = Audio.objects.get(pk = audio_pk)
@@ -82,5 +117,40 @@ class AudioDetials(APIView):
             'data': serializer.data
          }
          return Response(response, status=status.HTTP_200_OK)
+      
+
+#  Audio detials or get single/detail Audio
+class UpdateAudioAPI(APIView):
+
+   def patch(self, request, audio_pk,  format=None):
+      error_response = {
+         'non_found_error': f'No Audio found with this pk: {audio_pk}'
+      }
+      try:
+         audio = Audio.objects.get(pk = audio_pk)
+
+      except Audio.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except Audio.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+
+         serializer = AudioSerializer(instance=audio, data=request.data, partial=True)
+         if serializer.is_valid(raise_exception=True):
+            serializer.save()
+               
+            response = {
+               'msg': f'Congrats! Audio of pk: {audio_pk} updated successfully',
+               'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+         else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+         
       
   
