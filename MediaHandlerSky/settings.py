@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', 
     'corsheaders',
+    'drf_spectacular',
     'media_api_app',
 ]
 
@@ -132,4 +133,30 @@ MEDIA_ROOT  = BASE_DIR /'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
+
+
+# CORS Policy For Development Only
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    'http://localhost:3000',
+
+)
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'DRF Media Handler API',
+    'DESCRIPTION': 'It continas different types of APIs for work with videos, audios, pdf files etc .',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
+
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+
+    
+    # default schema class for api
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+
+}
