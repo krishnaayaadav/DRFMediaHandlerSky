@@ -114,7 +114,41 @@ class DeleteVideoAPI(APIView):
          }
          return Response(response, status=status.HTTP_204_NO_CONTENT)
 
+# post video api
+@extend_schema(request=VideoSerializer, summary='Add/Post New Video Files')
+class PostVideoAPI(APIView):
+
+   def post(self, request,  format=None):
+      serializer = VideoSerializer(data=request.data)
+      if serializer.is_valid(raise_exception=True):
+         serializer.save()
+         res = {
+            'msg': 'Congrats! Video successfully inserted',
+            'data': serializer.data
+         }
+         return Response(res, status=status.HTTP_201_CREATED)
+      else:
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 ####### Audio API Here #########
+
+
+# post audio api
+@extend_schema(request=AudioSerializer, summary='Add/Post New Audio Files')
+class PostAudioAPI(APIView):
+
+   def post(self, request,  format=None):
+      serializer = VideoSerializer(data=request.data)
+      if serializer.is_valid(raise_exception=True):
+         serializer.save()
+         res = {
+            'msg': 'Congrats! Audio successfully inserted',
+            'data': serializer.data
+         }
+         return Response(res, status=status.HTTP_201_CREATED)
+      else:
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # get all audios api
 @extend_schema(summary='Get All Audio Files')
@@ -218,6 +252,23 @@ class DeleteAudioAPI(APIView):
          return Response(response, status=status.HTTP_204_NO_CONTENT)
       
 ####### PDFfiles API Here #########
+
+
+# post pdffiles api
+@extend_schema(request=AudioSerializer, summary='Add/Post New PDFFiles ')
+class PostPDFFilesAPI(APIView):
+
+   def post(self, request,  format=None):
+      serializer = PDFFileSerializer(data=request.data)
+      if serializer.is_valid(raise_exception=True):
+         serializer.save()
+         res = {
+            'msg': 'Congrats! PDF file successfully inserted',
+            'data': serializer.data
+         }
+         return Response(res, status=status.HTTP_201_CREATED)
+      else:
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # get all PDFfiles 
