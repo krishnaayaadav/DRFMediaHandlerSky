@@ -1,7 +1,12 @@
 from django.shortcuts import render
 
-from .models import Video
+from .models import Video, PDFfile
 
 def homepage(request):
    all_videos = Video.objects.all()
-   return render(request, 'home.html', {'all_videos': all_videos})
+   all_pdf    = PDFfile.objects.all()
+   context    ={
+      'all_videos': all_videos,
+      'all_pdfs': all_pdf
+   }
+   return render(request, 'home.html', context)

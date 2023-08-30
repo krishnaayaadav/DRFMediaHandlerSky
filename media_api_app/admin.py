@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Video, UserProfile, Audio
+from .models import Category, Video, UserProfile, Audio, PDFfile
 
 # category model added into django admin panel
 @admin.register(Category)
@@ -26,3 +26,11 @@ class VideoModel(admin.ModelAdmin):
 @admin.register(UserProfile)
 class UserProfileModel(admin.ModelAdmin):
    list_display = ('user', 'about_user', 'profession', 'profile_img')
+
+
+# PDFfile model added into django admin panel
+@admin.register(PDFfile)
+class VideoModel(admin.ModelAdmin):
+   list_display = ('title', 'creator', 'category', 'created', 'updated', 'description', 'pdf_file')
+
+   search_fields = ('title','creator', 'category' )

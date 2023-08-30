@@ -78,7 +78,6 @@ class UpdateVideoAPI(APIView):
          else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 #  delete video 
 class DeleteVideoAPI(APIView):
 
@@ -104,7 +103,6 @@ class DeleteVideoAPI(APIView):
             'msg': f'Video delete successfully of pk: {video_pk}',
          }
          return Response(response, status=status.HTTP_204_NO_CONTENT)
-            
 
 # get all audios api
 class AudioAPI(generics.ListAPIView):
@@ -114,7 +112,6 @@ class AudioAPI(generics.ListAPIView):
 
    def get_queryset(self):
       return Audio.objects.all()
-
 
 #  Audio detials or get single/detail Audio
 class AudioDetials(APIView):
@@ -143,7 +140,6 @@ class AudioDetials(APIView):
             'data': serializer.data
          }
          return Response(response, status=status.HTTP_200_OK)
-      
 
 #  Audio detials or get single/detail Audio
 class UpdateAudioAPI(APIView):
@@ -178,8 +174,6 @@ class UpdateAudioAPI(APIView):
          else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
          
-      
-
 #  Audio detials or get single/detail Audio
 class DeleteAudioAPI(APIView):
 

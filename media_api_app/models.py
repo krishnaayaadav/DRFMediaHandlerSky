@@ -40,3 +40,20 @@ class Audio(models.Model):
    creator     = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='user_audio')
    
 
+# audio model
+class PDFfile(models.Model):
+
+   # pdf file path maker
+   def pdf_upload_path(instance, filename=None):
+      return f'PDF/files/{instance.title}'
+   
+   thumnail    = models.ImageField(upload_to='PDF/thumbnals', blank=True, null=True)
+   pdf_file     = models.FileField(upload_to=pdf_upload_path)
+   title       = models.CharField(max_length=200)
+   description = models.TextField(blank=True, null=True)
+   category    = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='pdf')
+   created     = models.DateField(auto_now_add=True) 
+   updated     = models.DateField(auto_now=True)
+   creator     = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='user_pdf')
+   
+
