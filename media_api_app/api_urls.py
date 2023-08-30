@@ -19,10 +19,4 @@ urlpatterns = [
    path('pdf-files/update/<int:pdf_pk>/', api_views.UpdatePDFfilesPI().as_view(), name='update_pdf_files'),
    path('pdf-files/delete/<int:pdf_pk>/', api_views.DeletePDFfilesAPI().as_view(), name='delete_pdf_files'),
 
-
-
-
-
-
-
 ]

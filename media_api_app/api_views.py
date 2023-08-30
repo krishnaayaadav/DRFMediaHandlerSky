@@ -7,9 +7,12 @@ from rest_framework.views import APIView
 from .models import Video, Audio, PDFfile
 from .serializers import VideoSerializer, AudioSerializer, PDFFileSerializer
 
+from drf_spectacular.utils import extend_schema
+
 ####### Audio API Here #########
 
 # get all videos api
+@extend_schema(summary='Get All Video files')
 class VideoAPI(generics.ListAPIView):
     
    queryset = Video.objects.all()
@@ -19,6 +22,7 @@ class VideoAPI(generics.ListAPIView):
       return Video.objects.all()
 
 #  video detials or get single/detail video
+@extend_schema(summary='Get Single/Detial Of VideoFiles')
 class VideoDetials(APIView):
 
    def get(self, request, video_pk,  format=None):
@@ -47,6 +51,8 @@ class VideoDetials(APIView):
          return Response(response, status=status.HTTP_200_OK)
       
 #  video update 
+
+@extend_schema(summary='Update VideoFiles')
 class UpdateVideoAPI(APIView):
 
    def patch(self, request, video_pk,  format=None):
@@ -81,6 +87,8 @@ class UpdateVideoAPI(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #  delete video 
+
+@extend_schema(summary='Delete VideoFile')
 class DeleteVideoAPI(APIView):
 
    def delete(self, request, video_pk,  format=None):
@@ -109,6 +117,7 @@ class DeleteVideoAPI(APIView):
 ####### Audio API Here #########
 
 # get all audios api
+@extend_schema(summary='Get All Audio Files')
 class AudioAPI(generics.ListAPIView):
     
    queryset = Audio.objects.all()
@@ -118,6 +127,7 @@ class AudioAPI(generics.ListAPIView):
       return Audio.objects.all()
 
 #  Audio detials or get single/detail Audio
+@extend_schema(summary='Get Detial/Single Audio File')
 class AudioDetials(APIView):
 
    def get(self, request, audio_pk,  format=None):
@@ -146,6 +156,7 @@ class AudioDetials(APIView):
          return Response(response, status=status.HTTP_200_OK)
 
 #  Audio detials or get single/detail Audio
+@extend_schema(summary='Update Audio Files')
 class UpdateAudioAPI(APIView):
 
    def patch(self, request, audio_pk,  format=None):
@@ -179,6 +190,7 @@ class UpdateAudioAPI(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
          
 #  Audio detials or get single/detail Audio
+@extend_schema(summary='Delete Audio Files')
 class DeleteAudioAPI(APIView):
 
    def delete(self, request, audio_pk,  format=None):
@@ -209,6 +221,7 @@ class DeleteAudioAPI(APIView):
 
 
 # get all PDFfiles 
+@extend_schema(summary='Get All PDF Files')
 class PDFFilesAPI(generics.ListAPIView):
     
    queryset = PDFfile.objects.all()
@@ -218,6 +231,7 @@ class PDFFilesAPI(generics.ListAPIView):
       return PDFfile.objects.all()
 
 #  PDFfiles detials or get single/detail PDFfiles
+@extend_schema(summary='Get Detial/Single PDF File')
 class PDFFileDetials(APIView):
 
    def get(self, request, pdf_pk,  format=None):
@@ -246,6 +260,7 @@ class PDFFileDetials(APIView):
          return Response(response, status=status.HTTP_200_OK)
 
 #  Update PDFfiles 
+@extend_schema(summary='Update PDF Files')
 class UpdatePDFfilesPI(APIView):
 
    def patch(self, request, pdf_pk,  format=None):
@@ -279,6 +294,7 @@ class UpdatePDFfilesPI(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
          
 # delete  PDFfiles 
+@extend_schema(summary='Delete PDF Files')
 class DeletePDFfilesAPI(APIView):
 
    def delete(self, request, pdf_pk,  format=None):
