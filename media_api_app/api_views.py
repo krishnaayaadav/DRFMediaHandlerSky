@@ -4,8 +4,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Video, Audio
-from .serializers import VideoSerializer, AudioSerializer
+from .models import Video, Audio, PDFfile
+from .serializers import VideoSerializer, AudioSerializer, PDFFileSerializer
+
+####### Audio API Here #########
 
 # get all videos api
 class VideoAPI(generics.ListAPIView):
@@ -104,6 +106,8 @@ class DeleteVideoAPI(APIView):
          }
          return Response(response, status=status.HTTP_204_NO_CONTENT)
 
+####### Audio API Here #########
+
 # get all audios api
 class AudioAPI(generics.ListAPIView):
     
@@ -198,6 +202,106 @@ class DeleteAudioAPI(APIView):
          audio.delete()
          response = {
             'msg': f'Audio deleted successfully of pk: {audio_pk}',
+         }
+         return Response(response, status=status.HTTP_204_NO_CONTENT)
+      
+####### PDFfiles API Here #########
+
+
+# get all PDFfiles 
+class PDFFilesAPI(generics.ListAPIView):
+    
+   queryset = PDFfile.objects.all()
+   serializer_class = PDFFileSerializer
+
+   def get_queryset(self):
+      return PDFfile.objects.all()
+
+#  PDFfiles detials or get single/detail PDFfiles
+class PDFFileDetials(APIView):
+
+   def get(self, request, pdf_pk,  format=None):
+      error_response = {
+         'non_found_error': f'No PDFfiles found with this pk:  {pdf_pk}'
+      }
+      try:
+         pdf_file = PDFfile.objects.get(pk = pdf_pk)
+
+      except PDFfile.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except PDFfile.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+
+         serializer = PDFFileSerializer(pdf_file)
+         response = {
+            'msg': f'Detial of PDF of pk: {pdf_pk}',
+            'data': serializer.data
+         }
+         return Response(response, status=status.HTTP_200_OK)
+
+#  Update PDFfiles 
+class UpdatePDFfilesPI(APIView):
+
+   def patch(self, request, pdf_pk,  format=None):
+      error_response = {
+         'non_found_error': f'No PDFfiles found with this pk: {pdf_pk}'
+      }
+      try:
+         pdf_file = PDFfile.objects.get(pk = pdf_pk)
+
+      except PDFfile.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except PDFfile.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+
+         serializer = PDFFileSerializer(instance=pdf_file, data=request.data, partial=True)
+         if serializer.is_valid(raise_exception=True):
+            serializer.save()
+               
+            response = {
+               'msg': f'Congrats! PDFfile of pk: {pdf_pk} updated successfully',
+               'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+         else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+         
+# delete  PDFfiles 
+class DeletePDFfilesAPI(APIView):
+
+   def delete(self, request, pdf_pk,  format=None):
+      error_response = {
+         'non_found_error': f'No PDFfiles found with this pk:  {pdf_pk}'
+      }
+      try:
+         pdf_file = Audio.objects.get(pk = pdf_pk)
+
+      except PDFfile.DoesNotExist:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except PDFfile.MultipleObjectsReturned:
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      except :
+         return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+      
+      else:
+
+         pdf_file.delete()
+         response = {
+            'msg': f'PDF deleted successfully of pk: {pdf_pk}',
          }
          return Response(response, status=status.HTTP_204_NO_CONTENT)
       
