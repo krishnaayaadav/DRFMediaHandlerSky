@@ -144,8 +144,8 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'DRF Media Handler API',
-    'DESCRIPTION': 'It continas different types of APIs for work with videos, audios, pdf files etc .',
+    'TITLE': 'Restful Media Handler API Audios,Videos,PDF files',
+    'DESCRIPTION': 'Restful API to work with different media files such as Images, Videos, Audios , PDF files etc. This project contains differnt api endpoints to get all audios,videos pdf or get single items, update particular media files or delete it contains all crud endpoints to perform insertion,deletion update,or detial',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
@@ -154,7 +154,7 @@ SPECTACULAR_SETTINGS = {
 REST_FRAMEWORK = {
     # pagination class
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 1, # page size
+    'PAGE_SIZE': 3, # page size
 
     'TEST_REQUEST_DEFAULT_FORMAT': 'json', # test request response type
 
